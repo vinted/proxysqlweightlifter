@@ -12,15 +12,21 @@ gem 'proxysqlweightlifter'
 
 And then execute:
 
-  $ bundle
+```
+$ bundle
+```
 
 Or install it yourself as:
 
-  $ gem install proxysqlweightlifter
+```
+$ gem install proxysqlweightlifter
+```
 
 ## Usage
 
-  $ proxysqlweightlifter 127.0.0.1 3306 username password 3
+```
+$ proxysqlweightlifter 127.0.0.1 3306 username password 3
+```
 
 
 ## Development
@@ -31,9 +37,13 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 Start docker to run MySQL 5.7
 
-  $ docker run --name=proxysqldocker -e MYSQL_USER="puser" -e MYSQL_PASSWORD="pass" -e MYSQL_DATABASE="lifter" -p 3306:3306 -d mysql/mysql-server:5.7
+```
+$ docker run --name=proxysqldocker -e MYSQL_USER="puser" -e MYSQL_PASSWORD="pass" -e MYSQL_DATABASE="lifter" -p 3306:3306 -d mysql/mysql-server:5.7
+```
 
-  bundle exec rspec
+```
+bundle exec rspec
+```
 
 ## Contributing
 
