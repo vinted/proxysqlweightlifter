@@ -24,7 +24,7 @@ module Proxysqlweightlifter
       end
 
       begin
-        # db.query('LOAD MYSQL SERVERS TO RUNTIME;')
+        db.query('LOAD MYSQL SERVERS TO RUNTIME;')
       rescue => e
         puts "LOAD MYSQL SERVERS TO RUNTIME error #{e}"
       end
