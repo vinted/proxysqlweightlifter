@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.name          = "proxysqlweightlifter"
   spec.version       = Proxysqlweightlifter::VERSION
   spec.authors       = ["Ernestas Poskus"]
-  spec.email         = ["ernestas.poskus@gmail.com"]
+  spec.email         = ["ernestas@vinted.com"]
 
   spec.summary       = %q{ProxySQL mysql_servers table automatic weight lifter for reader hosts}
   spec.description   = %q{ProxySQL mysql_servers table automatic weight lifter for reader hosts}
