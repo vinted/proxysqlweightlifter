@@ -54,7 +54,7 @@ RSpec.describe Proxysqlweightlifter::Lift do
     expect(db.query('SELECT * FROM mysql_servers').size).to eq(75)
   end
 
-  let(:instance) { described_class.new(db) }
+  let(:instance) { described_class.new(db, 10, 'hostgroup_id:5100:77') }
 
   context '#hostgroups' do
     it 'first 9 records matches' do
@@ -107,5 +107,19 @@ RSpec.describe Proxysqlweightlifter::Lift do
 
   context '#run' do
     it { expect(instance.run).to be_nil }
+
+    context 'hostgroup_id 5100 weight is updated' do
+      let(:slave) { instance.find_slaves(writer_hostgroup: 5000, reader_hostgroup: 5100) }
+      it { expect(slave).to eq([hostgroup_id: 5100, hostname: '20.0.10.73', port: 3306, weight: 77]) }
+    end
+  end
+
+  context '#hostgroup_weights' do
+    let(:cs) { 'hostgroup_id:9200:10,hostgroup_id:299:1' }
+    let(:custom_weight) { described_class.new(db, 10, cs).hostgroup_weights }
+
+    it 'parses given custom hostgroup weights' do
+      expect(custom_weight).to eq({9200 => 10, 299 => 1})
+    end
   end
 end
