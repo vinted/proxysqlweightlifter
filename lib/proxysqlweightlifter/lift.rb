@@ -2,11 +2,11 @@ module Proxysqlweightlifter
   # Lift is responsible for resolving current slaves from
   # mysql_replication_hostgroups table
   class Lift
-    attr_reader :db, :weight
+    attr_reader :db, :default_weight
 
-    def initialize(database, weight = 10)
+    def initialize(database, default_weight = 10)
       @db = database
-      @weight = weight
+      @default_weight = default_weight
     end
 
     def run
@@ -71,7 +71,7 @@ module Proxysqlweightlifter
     def update_weight(hostname:, port:, hostgroup_id:)
       db.query(%(
         UPDATE mysql_servers
-        SET weight = #{weight || 1}
+        SET weight = #{default_weight || 1}
         WHERE hostname = "#{hostname}" AND port = "#{port}" AND hostgroup_id = "#{hostgroup_id}";
       ))
     end
