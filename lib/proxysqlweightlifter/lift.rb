@@ -2,11 +2,12 @@ module Proxysqlweightlifter
   # Lift is responsible for resolving current slaves from
   # mysql_replication_hostgroups table
   class Lift
-    attr_reader :db, :weight
+    attr_reader :db, :default_weight
 
-    def initialize(database, weight = 10)
+    def initialize(database, default_weight = 10, custom_weight = '')
       @db = database
-      @weight = weight
+      @default_weight = default_weight
+      @custom_weight = custom_weight.to_s
     end
 
     def run
@@ -28,6 +29,16 @@ module Proxysqlweightlifter
       rescue => e
         puts "LOAD MYSQL SERVERS TO RUNTIME error #{e}"
       end
+    end
+
+    def hostgroup_weights
+      @hostgroup_weights ||= @custom_weight.split(',').map do |cs|
+        hostgroup_id, group_id, weight = cs.split(':')
+        raise 'Invalid or unsupported format: hostgroup_id:9100:70' if hostgroup_id != 'hostgroup_id'
+        {
+          group_id.to_i => weight.to_i
+        }
+      end.reduce(&:merge) || {}
     end
 
     def hostgroups
@@ -69,9 +80,10 @@ module Proxysqlweightlifter
     end
 
     def update_weight(hostname:, port:, hostgroup_id:)
+      weight = hostgroup_weights[hostgroup_id] || default_weight || 1
       db.query(%(
         UPDATE mysql_servers
-        SET weight = #{weight || 1}
+        SET weight = #{weight}
         WHERE hostname = "#{hostname}" AND port = "#{port}" AND hostgroup_id = "#{hostgroup_id}";
       ))
     end
