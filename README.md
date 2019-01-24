@@ -25,9 +25,17 @@ $ gem install proxysqlweightlifter
 ## Usage
 
 ```
-$ proxysqlweightlifter 127.0.0.1 3306 username password 3
+$ proxysqlweightlifter 127.0.0.1 3306 username password 99 hostgroup_id:9100:70,hostgroup_id:1100:20
 ```
 
+Arguments:
+
+ - hostname
+ - port
+ - username
+ - password
+ - global `readers` weight
+ - custom `reader` weight per `hostgroup_id`
 
 ## Development
 
