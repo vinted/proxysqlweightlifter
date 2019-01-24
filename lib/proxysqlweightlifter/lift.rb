@@ -80,7 +80,7 @@ module Proxysqlweightlifter
     end
 
     def update_weight(hostname:, port:, hostgroup_id:)
-      weight = hostgroup_weights[hostgroup_id] || default_weight || 1
+      weight = hostgroup_weights[hostgroup_id] || hostgroup_weights[hostgroup_id.to_i] || default_weight || 1
       db.query(%(
         UPDATE mysql_servers
         SET weight = #{weight}

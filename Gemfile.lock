@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    proxysqlweightlifter (0.1.0)
+    proxysqlweightlifter (0.3.0)
 
 GEM
   remote: https://rubygems.org/
